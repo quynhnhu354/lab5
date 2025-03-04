@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  .container.mt-4
+    h1 Danh sách sản phẩm
+    .row
+      each product in products
+        .col-md-4.mb-4
+          .card
+            img.card-img-top(src=product.imageUrl, alt=product.name)
+            .card-body
+              h5.card-title #{product.name}
+              p.card-text Giá: 
+                strong #{product.price} VNĐ
+              
+              // 👉 Thêm nút "Thêm vào giỏ hàng"
+              form(action="/cart/add", method="post")
+                input(type="hidden", name="productId", value=product._id)
+                button.btn.btn-success(type="submit") 🛒 Thêm vào giỏ hàng
+              
+              a.btn.btn-primary.mt-2(href=`/products/${product._id}`) 🔍 Xem chi tiết

@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  h1 Giỏ hàng
+
+  // Kiểm tra nếu giỏ hàng rỗng
+  if cart.length === 0
+    p Giỏ hàng của bạn hiện tại trống.
+
+  else
+    table(class="table table-striped table-bordered")
+      thead
+        tr
+          th Sản phẩm
+          th Giá
+          th Số lượng
+          th Thao tác
+      tbody
+        each item in cart
+          tr
+            td
+              img(src=item.imageUrl, alt=item.name, width="100", height="100")
+              | #{item.name}
+            td #{item.price} VND
+            td
+              // Hiển thị số lượng sản phẩm
+              #{item.quantity}
+            td
+              form(action="/cart/remove", method="POST")
+                input(type="hidden", name="productId", value=item._id)
+                button(type="submit", class="btn btn-danger btn-sm float-end") Xóa sản phẩm
+
+  // Hiển thị tổng giá trị của giỏ hàng
+  if cart.length > 0
+    .total
+      p Tổng cộng: 
+        span= cart.reduce((total, item) => total + (item.price * item.quantity), 0) + ' VND'
